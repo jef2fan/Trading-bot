@@ -218,8 +218,7 @@ def rsi(series: pd.Series, period:int=14)->pd.Series:
     rs = gain_s/(loss_s+1e-9)
     return 100 - (100/(1+rs))
 
-def macd(series: pd.Series, fast=12, 
-slow=26, signal=9):
+def macd(series: pd.Series, fast=12, slow=26, signal=9):
     ema_fast = ema(series, fast)
     ema_slow = ema(series, slow)
     m = ema_fast - ema_slow
@@ -564,7 +563,7 @@ def imbalance_metric(df: pd.DataFrame):
     rng = (df["high"] - df["low"]).replace(0, np.nan).fillna(1e-9)
     upv = ((df["close"] - opn).clip(lower=0) / rng) * df["volume"]
     dnv = ((opn - df["close"]).clip(lower=0) / rng) * df["volume"]
-imb = (upv - dnv) / (upv + dnv + 1e-9)  # [-1..1]
+    imb = (upv - dnv) / (upv + dnv + 1e-9)  # [-1..1]
     return imb.fillna(0.0)
 
 def add_order_flow(df: pd.DataFrame) -> pd.DataFrame:
@@ -603,7 +602,6 @@ def add_order_flow(df: pd.DataFrame) -> pd.DataFrame:
     d["of_score_pos"] = ((d["of_score"]+1)/2.0)
 
     return d
-
 # ===================== AI features (RandomForest) ======================
 AI_FEATURES = [
     "ema_trend","macd_cross","rsi_overbought","rsi_oversold",
