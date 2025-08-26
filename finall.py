@@ -1260,16 +1260,16 @@ def status():
 
 @app.get("/analyze")
 def analyze():
-    results = main_once()   # فانکشنی که از قبل داری
+    results = main_once()
     return {"results": str(results)}
 
 @app.post("/webhook")
 def webhook(data: dict):
-    # فعلاً فقط echo میکنه تا مطمئن بشیم کار میکنه
     return {"received": data}
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
 @app.get("/")
 def root():
     return {"service": "trading-bot", "status": "ok"}
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
