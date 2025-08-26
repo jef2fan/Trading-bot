@@ -1247,9 +1247,19 @@ if __name__ == "__main__":
     if "--loop" in args:
         main_once(); run_loop(); sys.exit(0)
     main_once()
+
+# ===================== entry ======================
+if __name__ == "__main__":
+    # offer_upgrades(UPGRADE_CHECK_PACKAGES)  # optional
+    args = set(a.lower() for a in sys.argv[1:])
+    if "--backtest" in args:
+        run_backtest(); sys.exit(0)
+    if "--loop" in args:
+        main_once(); run_loop(); sys.exit(0)
+    main_once()
+
 # ===================== FastAPI Web Server =====================
 from fastapi import FastAPI
-import uvicorn
 import os
 
 app = FastAPI()
@@ -1270,6 +1280,3 @@ def webhook(data: dict):
 @app.get("/")
 def root():
     return {"service": "trading-bot", "status": "ok"}
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
