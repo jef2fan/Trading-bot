@@ -1247,3 +1247,26 @@ if __name__ == "__main__":
     if "--loop" in args:
         main_once(); run_loop(); sys.exit(0)
     main_once()
+# ===================== FastAPI Web Server =====================
+from fastapi import FastAPI
+import uvicorn
+import os
+
+app = FastAPI()
+
+@app.get("/status")
+def status():
+    return {"ok": True}
+
+@app.get("/analyze")
+def analyze():
+    results = main_once()   # فانکشنی که از قبل داری
+    return {"results": str(results)}
+
+@app.post("/webhook")
+def webhook(data: dict):
+    # فعلاً فقط echo میکنه تا مطمئن بشیم کار میکنه
+    return {"received": data}
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
