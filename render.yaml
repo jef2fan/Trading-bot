@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: trading-api
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_ROLE
+        value: web
+      - key: TZ
+        value: Asia/Qatar
+
+  - type: worker
+    name: trading-worker
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_ROLE
+        value: worker
+      - key: TZ
+        value: Asia/Qatar
